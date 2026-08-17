@@ -22,7 +22,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@main
 
       - name: Build ISO
-        run: nix build --accept-flake-config .#iso --print-build-logs
+        run: nix build --accept-flake-config --impure .#iso --print-build-logs
 
       - name: Show ISO
         run: ls -lh result/iso/
