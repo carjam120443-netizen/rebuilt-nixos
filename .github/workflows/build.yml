@@ -3,7 +3,13 @@ name: Build Rebuilt-NixOS ISO
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  NIX_CONFIG: experimental-features = nix-command flakes
 
 jobs:
   build:
@@ -16,10 +22,14 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@main
 
       - name: Build ISO
-        run: nix build .#iso --print-build-logs
+        run: nix build --accept-flake-config .#iso --print-build-logs
+
+      - name: Show ISO
+        run: ls -lh result/iso/
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
           name: rebuilt-nixos-iso
           path: result/iso/*.iso
+          if-no-files-found: error
