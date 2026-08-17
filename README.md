@@ -1,21 +1,52 @@
 # Rebuilt-NixOS
 
-Rebuilt-NixOS is a rebranded NixOS distribution project.
+Rebuilt-NixOS is a rebranded NixOS distribution project focused on a recognizable Rebuilt desktop, graphical installer, custom artwork, and reproducible builds.
 
-The goal is to keep the NixOS architecture and nixpkgs ecosystem while adding Rebuilt branding and configuration.
+## What is included
 
-## Build
+- Rebuilt-NixOS system branding and `/etc/os-release` identity
+- Rebuilt-NixOS `0.1.0` release version
+- GNOME desktop environment
+- Calamares graphical installer on the live ISO
+- Rebuilt-NixOS ISO volume and filename branding
+- Original dark futuristic Rebuilt-NixOS SVG wallpaper
+- Shared Rebuilt-NixOS ASCII logo for terminal fetch tools
+- `fastfetch` plus compatibility commands named `neofetch`, `screenfetch`, and `pfetch`
+- Git, curl, wget, Firefox, GParted, and Vim on the live image
+- GitHub Actions ISO builds
+- Tagged GitHub releases with the generated ISO attached
 
-This repository uses a Nix flake and can build an ISO with:
+## Build locally
 
 ```bash
 nix build .#iso
 ```
 
-The GitHub Actions workflow builds the ISO automatically on pushes to `main` and can also be started manually.
+The ISO is produced under `result/iso/`.
+
+## Release
+
+The version is stored in `VERSION`. Create a Git tag matching `vMAJOR.MINOR.PATCH` to trigger the release workflow. For example:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+GitHub Actions will build the ISO and attach it to the GitHub release.
+
+## Fetch tools
+
+The default Rebuilt-NixOS fetch configuration uses the custom ASCII artwork in `assets/rebuilt-ascii.txt`. `rebuilt-fetch` is the native command; `neofetch`, `screenfetch`, and `pfetch` compatibility commands use the same Rebuilt-NixOS artwork through fastfetch.
+
+## Wallpaper
+
+The repository includes an original SVG wallpaper designed for Rebuilt-NixOS. It uses a dark blue futuristic Linux aesthetic and is stored at `assets/rebuilt-wallpaper.svg`, so the project does not need to redistribute a third-party raster wallpaper.
+
+A KDE Store Linux wallpaper was used as visual inspiration while selecting the direction for the theme.
 
 ## Upstream
 
-Rebuilt-NixOS is built from upstream NixOS/nixpkgs rather than copying the entire upstream repository into this repository. The flake pins the upstream NixOS source and the local configuration provides the Rebuilt-NixOS identity.
+Rebuilt-NixOS keeps the upstream NixOS architecture and nixpkgs ecosystem instead of copying the enormous upstream source tree into this repository. The flake currently tracks the NixOS `25.11` branch, while the Rebuilt-NixOS modules provide the distro-specific layer.
 
-This keeps the project maintainable and makes upstream updates much easier to pull in.
+A future stage can move nixpkgs into a separately maintained Rebuilt-NixOS fork once there is a reason to maintain package-level changes independently from upstream.
