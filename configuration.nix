@@ -2,7 +2,7 @@
 
 {
   imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
+    "${pkgs.path}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   ];
 
   networking.hostName = "rebuilt-nixos";
