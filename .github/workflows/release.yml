@@ -1,0 +1,30 @@
+name: Release Rebuilt-NixOS
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+env:
+  NIX_CONFIG: experimental-features = nix-command flakes
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Rebuilt-NixOS
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build ISO
+        run: nix build --accept-flake-config .#iso --print-build-logs
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" result/iso/*.iso --generate-notes --title "Rebuilt-NixOS $GITHUB_REF_NAME"
