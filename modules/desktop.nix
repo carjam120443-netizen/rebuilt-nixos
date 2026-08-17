@@ -7,6 +7,16 @@
 
   services.xserver.xkb.layout = "us";
 
+  programs.dconf.enable = true;
+
+  dconf.settings = {
+    "org/gnome/desktop/background" = {
+      picture-uri = "file:///etc/wallpaper/rebuilt-nixos.svg";
+      picture-uri-dark = "file:///etc/wallpaper/rebuilt-nixos.svg";
+      picture-options = "zoom";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     gnome-tweaks
     gnomeExtensions.appindicator
